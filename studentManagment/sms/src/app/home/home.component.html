@@ -7,8 +7,8 @@
                     <h4 class="card-title" >List All Students</h4>
                     <p class="card-text">List All Students who are available in the system</p>
                     <!-- <a class="btn btn-primary" routerLink='/employees'>List All</a> -->
-                    <a class="btn btn-primary" [routerLink]="['/students',10]">List All</a>
-                    <!-- <a class="btn btn-primary" (click)="loadStudents()">List All</a> -->
+                    <!-- <a class="btn btn-primary" [routerLink]="['/students',10]">List All</a> -->
+                    <a class="btn btn-primary" (click)="loadStudents()">List All</a>
                 </div>
             </div>
             <div class="card" style="width:400px">
@@ -16,7 +16,8 @@
                 <div class="card-body text-center">
                     <h4 class="card-title">Register new Student</h4>
                     <p class="card-text">Create new student record in the system with personal data</p>
-                    <a href="#" class="btn btn-primary">Create</a>
+                    <!-- if it is a even nuumber alert pop up saying unauthorized -->
+                    <a href="#" class="btn btn-primary" [routerLink]="['/students',11]">Create</a>
                 </div>
             </div>
         </div>

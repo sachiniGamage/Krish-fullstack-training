@@ -8,6 +8,7 @@ import { StudentsComponent } from './students/students.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
+import { CreateStudentGuard } from './students/create-student.guard';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     RouterModule.forRoot([
       {path: "students",component:StudentsComponent},
-      {path: "students/:id",component:StudentsComponent},
+      {path: "students/:id",component:StudentsComponent, canActivate:[CreateStudentGuard]},
       {path: "home",component:HomeComponent},
       {path: "",redirectTo:'home',pathMatch:"full"}
     ])
