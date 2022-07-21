@@ -1,0 +1,61 @@
+<div class="card">
+    <div class="card-header">
+        {{title}} <br>
+        {{message}}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <!-- 2 is the size -->
+            <div class="col-md-2">Name Filter: </div>
+            <div class="col-md-4">
+                <!-- [] =property binding, () = event binding-->
+                <!-- <input type="text" [(ngModel)] = "nameFilter"> -->
+                <input type="text" [(ngModel)] = "nameFilter" (ngModelChange)="nameFilter=$event">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Filtered By: {{nameFilter}}</h6>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <!-- ngif can use to manupulate template based on your componenet -->
+            <table class="table" *ngIf="students.length">
+                <thead>
+                    <tr>
+                        <th>
+                            <button class="btn btn-primary" (click)="toggleIcon()">
+                                {{showIcon?"Hide":"Show"}} Avatar
+                            </button>
+                        </th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Address</th>
+                        <th>Marks</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <!-- ngfor will iterate and give values -->
+                <tbody>
+                    <tr *ngFor= "let student of filteredStudents" >
+                        <td>
+                            <!-- we can set width , hieght but interpolation we can't do that -->
+                            <img [src]="student.icon" *ngIf="showIcon">
+                        </td>
+                        <td>{{student.firstName}}</td>
+                        <td>{{student.lastName}}</td>
+                        <td>{{student.address}}</td>
+                        <td>{{student.marks|number:'1.0-1'}}</td>
+                        
+                        <td><em-progress-bar 
+                            [progress]="student.progress"
+                            [firstName]="student.firstName"
+                            (progressClick)="onMessageReceived($event)"
+                            ></em-progress-bar></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
