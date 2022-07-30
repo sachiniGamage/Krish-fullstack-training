@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { StudentService } from './student.service';
 
 // import students from './data/students.json'
-import { Student } from './Students.model';
+import { Student } from './Students.model';  //import interface
 
 @Component({
   selector: 'em-students',
@@ -25,7 +25,7 @@ export class StudentsComponent implements OnInit,OnDestroy {
     this._nameFilter = value;
     this.filterByName();
   }
-
+  
   get nameFilter():string{
     return this._nameFilter;
   }
