@@ -16,7 +16,7 @@ import java.util.Map;
 @Configuration
 public class OrderKafkaProducerConfig {
 
-    @Value("192.168.8.101:9092")
+    @Value("localhost:9092")
     private String bootstrapServers;  //server url
 
     public Map<String, Object> producerConfig() {

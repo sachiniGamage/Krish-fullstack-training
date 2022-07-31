@@ -1,6 +1,7 @@
 package com.example.order.controller;
 
 import com.example.order.MessageRequest;
+import com.example.order.model.FuelType;
 import com.example.order.model.Orders;
 import com.example.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class OrderController {
     @PostMapping (path = "/save")
     public Orders saveOrder(@RequestBody Orders order){
         Orders order1 = orderService.saveOrder(order);
+        kafkaTemplate.send("NewOrder", order.toString());
         return order1;
     }
 
@@ -37,9 +39,15 @@ public class OrderController {
         return orderList;
     }
 
-    @PostMapping(path = "/message")
-    public void publish(@RequestBody MessageRequest  messageRequest){
-        kafkaTemplate.send("NewOrder", messageRequest.toString());
+//    @PostMapping(path = "/message")
+//    public void publish(@RequestBody MessageRequest  messageRequest){
+//        kafkaTemplate.send("NewOrder", messageRequest.toString());
+//    }
+
+    @GetMapping(path = "/getOrderedFuel")
+    public Orders getOrderedFuelCapacity(@RequestParam(value = "fuelType")FuelType fuelType){
+        Orders orders = orderService.getOrderedFuelCapacity(fuelType);
+        return orders;
     }
 
 }

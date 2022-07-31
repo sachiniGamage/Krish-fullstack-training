@@ -1,5 +1,6 @@
 package com.example.order.service;
 
+import com.example.order.model.FuelType;
 import com.example.order.model.Orders;
 import com.example.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class OrderService {
         }else{
             return new Orders();
         }
+    }
+
+    public Orders getOrderedFuelCapacity(FuelType fuelType) {
+        Orders orders = orderRepository.findAllByFuelTypeEquals(fuelType);
+        return orders;
     }
 }
