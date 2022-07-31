@@ -1,5 +1,6 @@
 package com.example.inverontoryservice.model;
 
+import com.example.order.model.FuelType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

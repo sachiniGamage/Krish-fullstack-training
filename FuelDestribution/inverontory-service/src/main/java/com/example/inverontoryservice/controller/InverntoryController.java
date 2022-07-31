@@ -1,6 +1,6 @@
 package com.example.inverontoryservice.controller;
 
-import com.example.inverontoryservice.model.FuelType;
+import com.example.order.model.FuelType;
 import com.example.inverontoryservice.model.Inventory;
 import com.example.inverontoryservice.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;

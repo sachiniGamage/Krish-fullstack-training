@@ -2,15 +2,17 @@ package com.example.inverontoryservice.service;
 
 import com.example.inverontoryservice.KafkaListener;
 import com.example.inverontoryservice.model.Allocation;
-import com.example.inverontoryservice.model.FuelType;
+import com.example.order.model.FuelType;
 import com.example.inverontoryservice.model.Inventory;
 import com.example.inverontoryservice.repository.AllocationRepository;
 import com.example.order.model.Orders;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AllocationService {
@@ -20,21 +22,24 @@ public class AllocationService {
     double availableDiesel = 90_000;
     double availableSuperDiesel = 100_000;
 
+
+
+
     @Autowired
     private InventoryService inventoryService;
 
     @Autowired
     private AllocationRepository allocationRepository;
 
-    public Allocation allocate(Allocation allocation) {
+    public void saveAllocation(Allocation allocation,Orders orders,boolean allocated){
+        allocation.setOrder(orders);
+        allocation.setAllocated(allocated);
         allocationRepository.save(allocation);
-        return allocation;
-    }
-    //todo: save allocation details in DB
 
+    }
 
     public boolean checkAvailability(double capacity,FuelType fuelType){
-
+        //check the current stock
         Inventory inventory = inventoryService.getInventoryDetailsByFuelType(fuelType);
         double stock =inventory.getCapacity();
 
@@ -50,6 +55,7 @@ public class AllocationService {
 
                 return true;
             } else {
+
                 System.out.println("cannot complete the order - 92");
                 return false;
             }
@@ -89,6 +95,18 @@ public class AllocationService {
         }
     }
 
+    public Orders createOrder(int id, String name, String location, int gasStationId, double capacity, com.example.order.model.FuelType fuelType){
+        Orders orders = new Orders();
+        orders.setOrderId(id);
+        orders.setCpcOwnerName(name);
+        orders.setLocation(location);
+        orders.setGasStationId(gasStationId);
+        orders.setFuelCapacity(capacity);
+        orders.setFuelType(fuelType);
+
+        return orders;
+    }
+
     public void splitJsonMsg(String msg){
 
         String[] split1 = msg.split("Orders\\(");
@@ -124,9 +142,11 @@ public class AllocationService {
         double capacity = Double.parseDouble(orderValues.get(4));
         FuelType fuelType = FuelType.valueOf(orderValues.get(5));
 
-        checkAvailability(capacity, fuelType);
+        boolean allocated = checkAvailability(capacity, fuelType);
 
-        //todo: call allocate
+        Allocation allocation = new Allocation();
+        saveAllocation(allocation ,createOrder(OrderId,name,location,gasStationId,capacity,fuelType),allocated);
+
     }
 
 }

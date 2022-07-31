@@ -19,11 +19,5 @@ public class AllocationController {
     @Autowired
     private AllocationService allocationService;
 
-    @PostMapping(path = "/save")
-    public Allocation allocate(@RequestBody Allocation allocation){
-        Allocation allocation1 = allocationService.allocate(allocation);
-        kafkaTemplate.send("AllocationComplete", allocation.toString());
-        return allocation1;
-    }
 
 }
