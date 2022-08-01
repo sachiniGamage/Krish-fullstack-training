@@ -2,12 +2,14 @@ package com.example.inverontoryservice.service;
 
 import com.example.inverontoryservice.KafkaListener;
 import com.example.inverontoryservice.model.Allocation;
+import com.example.inverontoryservice.model.CurrentStatus;
 import com.example.order.model.FuelType;
 import com.example.inverontoryservice.model.Inventory;
 import com.example.inverontoryservice.repository.AllocationRepository;
 import com.example.order.model.Orders;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,8 +24,8 @@ public class AllocationService {
     double availableDiesel = 90_000;
     double availableSuperDiesel = 100_000;
 
-
-
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
     private InventoryService inventoryService;
@@ -31,11 +33,20 @@ public class AllocationService {
     @Autowired
     private AllocationRepository allocationRepository;
 
-    public void saveAllocation(Allocation allocation,Orders orders,boolean allocated){
-        allocation.setOrder(orders);
-        allocation.setAllocated(allocated);
-        allocationRepository.save(allocation);
+    public void saveAllocation(Allocation allocation, Orders orders){
 
+        boolean allocate = checkAvailability(orders.getFuelCapacity(), orders.getFuelType());
+        CurrentStatus status;
+        if(allocate == true){
+            status = CurrentStatus.ALLOCATED;
+        }else{
+            status = CurrentStatus.notAllocated;
+        }
+        System.out.println(status.toString());
+        allocation.setOrder(orders);
+        allocation.setAllocated(status);
+        allocationRepository.save(allocation);
+        kafkaTemplate.send("AllocationComplete", allocation.toString());
     }
 
     public boolean checkAvailability(double capacity,FuelType fuelType){
@@ -142,11 +153,8 @@ public class AllocationService {
         double capacity = Double.parseDouble(orderValues.get(4));
         FuelType fuelType = FuelType.valueOf(orderValues.get(5));
 
-        boolean allocated = checkAvailability(capacity, fuelType);
-
         Allocation allocation = new Allocation();
-        saveAllocation(allocation ,createOrder(OrderId,name,location,gasStationId,capacity,fuelType),allocated);
-
+        saveAllocation(allocation ,createOrder(OrderId,name,location,gasStationId,capacity,fuelType));
     }
 
 }

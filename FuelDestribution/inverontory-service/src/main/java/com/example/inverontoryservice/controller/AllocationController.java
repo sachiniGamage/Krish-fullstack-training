@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AllocationController {
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
-    @Autowired
     private AllocationService allocationService;
 
 

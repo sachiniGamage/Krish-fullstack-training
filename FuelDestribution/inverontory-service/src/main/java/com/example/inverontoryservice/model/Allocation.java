@@ -22,5 +22,5 @@ public class Allocation {
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Orders order;
 
-    private boolean allocated;
+    private CurrentStatus allocated;
 }
