@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CurrencyEditor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +22,9 @@ import java.util.List;
 public class DispatchService {
 
     @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Autowired
     private DispatchRepository dispatchRepository;
 
     //update allocation table allocated column to distributed when dispatch button clicked
@@ -29,6 +33,7 @@ public class DispatchService {
         CurrentStatus currentStatus = CurrentStatus.distributed;
         schedule.setScheduled(currentStatus);
         dispatchRepository.save(schedule);
+        kafkaTemplate.send("OrderDispatched", schedule.toString());
     }
 
     //display all the scheduled orders
