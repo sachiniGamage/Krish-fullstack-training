@@ -4,8 +4,9 @@ import com.example.inverontoryservice.model.CurrentStatus;
 import com.example.order.model.FuelType;
 import com.example.order.model.Orders;
 import com.example.schedule.model.Schedule;
-import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,21 +17,34 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class ScheduleService {
 
+
+
+
+    //todo: random date not pick a random day - fix it
+
+
+
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+//    @Autowired
+//    private ScheduleRepository scheduleRepository;
 
     public void saveScheduleDetails(Schedule schedule, Orders order, CurrentStatus currentStatus){
         CurrentStatus scheduleState;
         if(currentStatus == CurrentStatus.ALLOCATED){
             scheduleState = CurrentStatus.scheduled;
+            schedule.setRandomDay(createRandomDate());
+
         }else{
+            schedule.setRandomDay(null);
             scheduleState = CurrentStatus.notScheduled;
         }
 
         schedule.setOrder(order);
         schedule.setScheduled(scheduleState);
-        schedule.setRandomDay(createRandomDate());
-        scheduleRepository.save(schedule);
+//        scheduleRepository.save(schedule);
+        kafkaTemplate.send("DeliveryScheduled", schedule.toString());
     }
 
     public LocalDate createRandomDate(){

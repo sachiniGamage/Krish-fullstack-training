@@ -24,7 +24,7 @@ public class Schedule {
 //    @JoinColumn(name = "allocationId", referencedColumnName = "allocationId")
 //    private Allocation allocation;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Orders order;
 
