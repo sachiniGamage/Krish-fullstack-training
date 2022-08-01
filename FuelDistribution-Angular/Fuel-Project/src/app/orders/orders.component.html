@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header">
+        <h1>{{title}}</h1>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">Owner name: 
+                <input type="text" #box (keyup)="getOwnerName(box.value)" placeholder="Enter Name " name="cpcOwnerName" >
+            </div>
+        </div>
+        <p>{{displayOwnerName}}</p>
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="location">Location: </label>
+                <select name="location" id="location">
+                    <option value="colombo">colombo</option>
+                    <option value="avissawella">Avissawella</option>
+                    <option value="hanwella">Hanwella</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="gasStationId">Gas Station: </label>
+                <select name="gasStationId" id="gasStationId">
+                    <option value="1">IOC</option>
+                    <option value="2">Cepetco</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4">Fuel Capacity: 
+                <input type="text" placeholder="Enter Name " name="fuelCapacity" >
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="fuelType">Fuel Type: </label>
+                <select name="fuelType" id="fuelType">
+                    <option value="Patrol92">Petrol 92</option>
+                    <option value="Patrol95">Petrol 95</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="SuperDiesel">Super Diesel</option>
+                </select>
+            </div>
+        </div>
+
+        <br>
+        <button type="submit">Submit</button>
+    </div>
+</div>
+
+
+
