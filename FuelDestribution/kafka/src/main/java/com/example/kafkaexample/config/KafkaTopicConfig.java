@@ -12,4 +12,19 @@ public class KafkaTopicConfig {
     public NewTopic myCodeTopic(){  //this will instantiate and get a new topic
         return TopicBuilder.name("NewOrder").build();
     }
+
+    @Bean
+    public NewTopic myCodeTopic2(){  //this will instantiate and get a new topic
+        return TopicBuilder.name("AllocationComplete").build();
+    }
+
+    @Bean
+    public NewTopic myCodeTopic3(){  //this will instantiate and get a new topic
+        return TopicBuilder.name("DeliveryScheduled").build();
+    }
+
+    @Bean
+    public NewTopic myCodeTopic4(){  //this will instantiate and get a new topic
+        return TopicBuilder.name("OrderDispatched").build();
+    }
 }
