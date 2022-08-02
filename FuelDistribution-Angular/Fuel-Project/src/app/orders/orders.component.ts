@@ -9,7 +9,7 @@ import { Route, Router } from '@angular/router';
 export class OrdersComponent implements OnInit {
 
   title:String = "Make an Order";
-  displayOwnerName:String='';
+   displayOwnerName:String='';
 
   constructor() { }
 
@@ -20,5 +20,6 @@ export class OrdersComponent implements OnInit {
     console.log(ownerName);
     this.displayOwnerName=ownerName;
   }
+  
 
 }

@@ -27,4 +27,9 @@ public class KafkaTopicConfig {
     public NewTopic myCodeTopic4(){  //this will instantiate and get a new topic
         return TopicBuilder.name("OrderDispatched").build();
     }
+
+    @Bean
+    public NewTopic myCodeTopic5(){  //this will instantiate and get a new topic
+        return TopicBuilder.name("cannotAllocate").build();
+    }
 }

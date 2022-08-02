@@ -16,8 +16,13 @@
   </div>
 </nav>
 
-
-
-<div>
-  <router-outlet></router-outlet>
+<div *ngFor="let orderr of ordersfromBE">
+  <div>{{orderr.ownerName}}</div>
+  <div>{{orderr.location}}</div>
+  <div>{{orderr.gasStationId}}</div>
+  <div>{{orderr.fuelCapacity}}</div>
+  <div>{{orderr.fuelType}}</div>
 </div>
+<!-- <div>
+  <router-outlet></router-outlet>
+</div> -->

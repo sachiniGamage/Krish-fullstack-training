@@ -66,7 +66,7 @@ public class AllocationService {
 
                 return true;
             } else {
-
+                kafkaTemplate.send("cannotAllocate", "Order is fail");
                 System.out.println("cannot complete the order - 92");
                 return false;
             }
@@ -77,6 +77,7 @@ public class AllocationService {
                 System.out.println("can complete the order 95");
                 return true;
             } else {
+                kafkaTemplate.send("cannotAllocate", "Order is fail");
                 System.out.println("cannot complete the order - 95");
                 return false;
             }
@@ -87,6 +88,7 @@ public class AllocationService {
                 System.out.println("can complete the order Diesel");
                 return true;
             } else {
+                kafkaTemplate.send("cannotAllocate", "Order is fail");
                 System.out.println("cannot complete the order - Diesel");
                 return false;
             }
@@ -97,10 +99,12 @@ public class AllocationService {
                 System.out.println("can complete the order Super Diesel");
                 return true;
             } else {
+                kafkaTemplate.send("cannotAllocate", "Order is fail");
                 System.out.println("cannot complete the order - Super Diesel");
                 return false;
             }
         }else{
+            kafkaTemplate.send("cannotAllocate", "Order is fail");
             System.out.println("cannot complete the order");
             return false;
         }

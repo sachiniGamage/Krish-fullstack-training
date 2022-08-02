@@ -100,14 +100,14 @@ public class DispatchService {
         FuelType fuelType = FuelType.valueOf(values.get(5));
         CurrentStatus cs = CurrentStatus.valueOf(values.get(6));
 
-        String[] s1 = part10.split("-");
-        int year = Integer.parseInt(s1[0]);
-
-        String p =  s1[1];
-        String[] s2 = p.split("-");
-        int month  = Integer.parseInt(s2[0]);
-        int day1 = Integer.parseInt(s2[1]);
-
-        LocalDate day = LocalDate.of(year,month,day1);
+//        String[] s1 = part10.split("-");
+//        int year = Integer.parseInt(s1[0]);
+//
+//        String p =  s1[1];
+//        String[] s2 = p.split("-");
+//        int month  = Integer.parseInt(s2[0]);
+//        int day1 = Integer.parseInt(s2[1]);
+//
+//        LocalDate day = LocalDate.of(year,month,day1);
     }
 }
