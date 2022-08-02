@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RequestMapping("/orderService")
 public class OrderController {
 
@@ -20,8 +21,10 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @CrossOrigin
     @PostMapping (path = "/save")
     public Orders saveOrder(@RequestBody Orders order){
+        System.out.println("client request recieved");
         Orders order1 = orderService.saveOrder(order);
         kafkaTemplate.send("NewOrder", order.toString());
         return order1;
