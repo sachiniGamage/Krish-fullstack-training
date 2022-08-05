@@ -5,7 +5,7 @@ class Api{
 
     static init(){
         this.axiosInstance = axios.create({
-            baseURL: 'http://run.mocky.io/v3/86b85cd1-fa7a-456d-b995-17150b3661a9'
+            baseURL: 'http://localhost:8391/dispatching/all'
         })
     }
 
