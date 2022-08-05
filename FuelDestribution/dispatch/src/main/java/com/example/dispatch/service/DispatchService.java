@@ -105,9 +105,19 @@ public class DispatchService {
 //
 //        String p =  s1[1];
 //        String[] s2 = p.split("-");
-//        int month  = Integer.parseInt(s2[0]);
+//        int month  = Integer.parseInt(s2[0]) ;
 //        int day1 = Integer.parseInt(s2[1]);
 //
 //        LocalDate day = LocalDate.of(year,month,day1);
+    }
+
+
+    public void dispatchById(int id) {
+        CurrentStatus currentStatus = CurrentStatus.distributed;
+        Schedule s = dispatchRepository.findScheduleByOrderGasStationId(id);
+        s.setScheduled(currentStatus);
+        dispatchRepository.save(s);
+        kafkaTemplate.send("OrderDispatched", s.toString());
+
     }
 }
