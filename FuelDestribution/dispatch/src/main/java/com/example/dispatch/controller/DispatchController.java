@@ -31,6 +31,12 @@ public class DispatchController {
         dispatchService.dispatchById(id);
     }
 
+    @PutMapping(path = "/update")
+    public void updateDispatch(@RequestBody int id){
+        System.out.println("....");
+        dispatchService.dispatchById(id);
+    }
+
     @GetMapping(path = "/all")
     public List<Schedule> getAllScheduledOrders(){
         List<Schedule> scheduleList = dispatchService.getAllScheduledOrders();

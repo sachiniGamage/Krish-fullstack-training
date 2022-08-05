@@ -120,4 +120,12 @@ public class DispatchService {
         kafkaTemplate.send("OrderDispatched", s.toString());
 
     }
+
+    public void updateDispatch(int id) {
+        CurrentStatus currentStatus = CurrentStatus.distributed;
+        Schedule s = dispatchRepository.findScheduleByOrderGasStationId(id);
+        s.setScheduled(currentStatus);
+        dispatchRepository.save(s);
+        kafkaTemplate.send("OrderDispatched", s.toString());
+    }
 }
