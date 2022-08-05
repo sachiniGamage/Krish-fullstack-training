@@ -49,8 +49,8 @@ function App() {
   const handleSubmit = (event:React.FormEvent<HTMLFormElement>) =>{
     axios({
       method: 'put',
-      url: 'http://localhost:8391/dispatching/dispatchById/${data.gasStationId}',
-      // data: {
+      url: `http://localhost:8391/dispatching/dispatchById/19`,
+      // data: { ${data.gasStationId}
       //   gasStationId: data.gasStationId
       // }
     });
