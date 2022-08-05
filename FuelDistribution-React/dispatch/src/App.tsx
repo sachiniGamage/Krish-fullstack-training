@@ -36,11 +36,12 @@ function App() {
     getList().
     then(value => {
       console.log("Printedd ", value)
-      let maybeA =  value as A
-      setData({...data,randomDay:maybeA.randomDay ,
-        orderId:maybeA.order.orderId, 
-        location:maybeA.order.location, 
-        gasStationId:maybeA.order.gasStationId})
+      let maybeA =  value as A[]
+      // let maybeB = maybeA.order as B
+      setData({...data,randomDay:maybeA[0].randomDay ,
+        orderId:maybeA[0].order.orderId, 
+        location:maybeA[0].order.location, 
+        gasStationId:maybeA[0].order.gasStationId})
         // my = [{my,}]
     })
   },[]);
@@ -61,9 +62,9 @@ function App() {
 
       <table border={2} cellPadding={5}>
         <tr>
-          <th>OrderId</th>
-          <th>location</th>
-          <th>Gas StationId</th>
+          <th>Order Id</th>
+          <th>location </th>
+          <th>Gas Station Id</th>
           <th>Scheduled Date</th>
           <th>Dispatch</th>
         </tr>
