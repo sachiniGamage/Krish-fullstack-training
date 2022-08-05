@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import SecPage from './common/secPage';
+import GetOrderBtn from './common/getOrderBtn';
+
 
 function App(){ 
   const [values,setValues] = useState({
@@ -49,6 +52,8 @@ function App(){
    if(values.ownerName && values.location && values.gasStationId && capacity.fuelCapacity && state.fuelType){
     setValid(true);
    }
+
+   event.preventDefault();
 
    axios({
     method: 'post',
@@ -129,8 +134,17 @@ function App(){
               Submit
             </button>
         </form>
+
+        {/* View Orders */}
+        <div><h2>View Order Deatils</h2></div>
+
+        {/* <GetOrderBtn/> */}
+
+        
+        <SecPage />
       
     </div>
+    
   );
 }
 
