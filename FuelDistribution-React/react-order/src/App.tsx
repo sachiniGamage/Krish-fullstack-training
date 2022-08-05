@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App(){ 
   const [values,setValues] = useState({
     ownerName:"",
     location:"",
@@ -129,6 +129,7 @@ function App() {
               Submit
             </button>
         </form>
+      
     </div>
   );
 }
