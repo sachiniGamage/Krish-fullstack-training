@@ -1,22 +1,18 @@
 package com.example.dispatch.service;
 
 import com.example.dispatch.repository.DispatchRepository;
-import com.example.inverontoryservice.model.Allocation;
 import com.example.inverontoryservice.model.CurrentStatus;
 import com.example.order.model.FuelType;
 import com.example.order.model.Orders;
 import com.example.schedule.model.Schedule;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CurrencyEditor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DispatchService {
@@ -127,5 +123,15 @@ public class DispatchService {
         s.setScheduled(currentStatus);
         dispatchRepository.save(s);
         kafkaTemplate.send("OrderDispatched", s.toString());
+    }
+
+    public Schedule getOrderById(int id) {
+        Schedule schedule = dispatchRepository.findScheduleByOrderGasStationId(id);
+//        if(schedule.isPresent()){
+//            return schedule.get();
+//        }else{
+//            throw new RuntimeException("No order scheduled like this");
+//        }
+        return schedule;
     }
 }

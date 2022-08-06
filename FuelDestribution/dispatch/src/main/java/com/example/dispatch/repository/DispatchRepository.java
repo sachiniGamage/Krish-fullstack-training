@@ -7,6 +7,7 @@ import com.example.schedule.model.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DispatchRepository extends JpaRepository<Schedule, Integer> {
 
@@ -14,4 +15,6 @@ public interface DispatchRepository extends JpaRepository<Schedule, Integer> {
     List<Schedule> findScheduleByScheduled(CurrentStatus currentStatus);
 
     Schedule findScheduleByOrderGasStationId(int id);
+
+//    Optional<Schedule> findScheduleBy(int id);
 }

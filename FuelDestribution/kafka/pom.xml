@@ -15,6 +15,8 @@
     <description>kafka-example</description>
     <properties>
         <java.version>14</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>

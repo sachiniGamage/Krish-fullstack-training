@@ -4,6 +4,7 @@ import com.example.inverontoryservice.model.CurrentStatus;
 import com.example.order.model.FuelType;
 import com.example.order.model.Orders;
 import com.example.schedule.model.Schedule;
+import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -27,8 +28,8 @@ public class ScheduleService {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-//    @Autowired
-//    private ScheduleRepository scheduleRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     public void saveScheduleDetails(Schedule schedule, Orders order, CurrentStatus currentStatus){
         CurrentStatus scheduleState;
@@ -43,7 +44,7 @@ public class ScheduleService {
 
         schedule.setOrder(order);
         schedule.setScheduled(scheduleState);
-//        scheduleRepository.save(schedule);
+        scheduleRepository.save(schedule);
         kafkaTemplate.send("DeliveryScheduled", schedule.toString());
     }
 

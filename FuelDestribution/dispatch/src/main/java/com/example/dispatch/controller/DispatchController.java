@@ -25,6 +25,7 @@ public class DispatchController {
         dispatchService.dispatchOrder();
     }
 
+    //this is the one use in dispatch
     @PutMapping(path = "/dispatchById/{id}")
     public void dispatchOrderById(@PathVariable("id") int id){
         System.out.println("....");
@@ -43,5 +44,10 @@ public class DispatchController {
         return scheduleList;
     }
 
+    @GetMapping(path = "/getByGasStationId/{id}")
+    public Schedule getOrderById(@PathVariable("id")int id){
+        Schedule schedule = dispatchService.getOrderById(id);
+        return schedule;
+    }
 
 }
