@@ -20,10 +20,6 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int scheduleId;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "allocationId", referencedColumnName = "allocationId")
-//    private Allocation allocation;
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Orders order;

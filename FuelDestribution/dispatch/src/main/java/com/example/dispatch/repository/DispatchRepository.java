@@ -11,10 +11,7 @@ import java.util.Optional;
 
 public interface DispatchRepository extends JpaRepository<Schedule, Integer> {
 
-//    List<Schedule> findByScheduled(CurrentStatus currentStatus);
     List<Schedule> findScheduleByScheduled(CurrentStatus currentStatus);
 
     Schedule findScheduleByOrderGasStationId(int id);
-
-//    Optional<Schedule> findScheduleBy(int id);
 }

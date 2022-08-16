@@ -19,19 +19,20 @@ import java.util.Objects;
 @Service
 public class AllocationService {
 
-    double available92 = 30_000;
-    double available95 = 60_000;
-    double availableDiesel = 90_000;
-    double availableSuperDiesel = 100_000;
-
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, Allocation> kafkaTemplate;
 
     @Autowired
     private InventoryService inventoryService;
 
     @Autowired
     private AllocationRepository allocationRepository;
+
+    public void getOrderData(Orders order){
+        Allocation allocation = new Allocation();
+        saveAllocation(allocation ,order);
+
+    }
 
     public void saveAllocation(Allocation allocation, Orders orders){
 
@@ -46,7 +47,7 @@ public class AllocationService {
         allocation.setOrder(orders);
         allocation.setAllocated(status);
         allocationRepository.save(allocation);
-        kafkaTemplate.send("AllocationComplete", allocation.toString());
+        kafkaTemplate.send("AllocationComplete", allocation);
     }
 
     public boolean checkAvailability(double capacity,FuelType fuelType){
@@ -57,6 +58,7 @@ public class AllocationService {
         System.out.println("current stock: " + stock +" - fuel type : " + fuelType);
 
         double remain92,remain95,diesel,superDiesel;
+        Allocation allocation;
 
         if(fuelType == FuelType.Patrol92) {
             if (stock > capacity) {
@@ -66,7 +68,7 @@ public class AllocationService {
 
                 return true;
             } else {
-                kafkaTemplate.send("cannotAllocate", "Order is fail");
+//                kafkaTemplate.send("cannotAllocate", null);
                 System.out.println("cannot complete the order - 92");
                 return false;
             }
@@ -77,7 +79,7 @@ public class AllocationService {
                 System.out.println("can complete the order 95");
                 return true;
             } else {
-                kafkaTemplate.send("cannotAllocate", "Order is fail");
+//                kafkaTemplate.send("cannotAllocate", null);
                 System.out.println("cannot complete the order - 95");
                 return false;
             }
@@ -88,7 +90,7 @@ public class AllocationService {
                 System.out.println("can complete the order Diesel");
                 return true;
             } else {
-                kafkaTemplate.send("cannotAllocate", "Order is fail");
+//                kafkaTemplate.send("cannotAllocate", null);
                 System.out.println("cannot complete the order - Diesel");
                 return false;
             }
@@ -99,66 +101,15 @@ public class AllocationService {
                 System.out.println("can complete the order Super Diesel");
                 return true;
             } else {
-                kafkaTemplate.send("cannotAllocate", "Order is fail");
+//                kafkaTemplate.send("cannotAllocate", );
                 System.out.println("cannot complete the order - Super Diesel");
                 return false;
             }
         }else{
-            kafkaTemplate.send("cannotAllocate", "Order is fail");
+//            kafkaTemplate.send("cannotAllocate", null);
             System.out.println("cannot complete the order");
             return false;
         }
-    }
-
-    public Orders createOrder(int id, String name, String location, int gasStationId, double capacity, com.example.order.model.FuelType fuelType){
-        Orders orders = new Orders();
-        orders.setOrderId(id);
-        orders.setCpcOwnerName(name);
-        orders.setLocation(location);
-        orders.setGasStationId(gasStationId);
-        orders.setFuelCapacity(capacity);
-        orders.setFuelType(fuelType);
-
-        return orders;
-    }
-
-    public void splitJsonMsg(String msg){
-
-        String[] split1 = msg.split("Orders\\(");
-        String part2 = split1[1];
-
-        String[] split2 = part2.split("\\)");
-        String part3 = split2[0];
-
-        String[] split3 = part3.split(", ");
-        List<String> list = new ArrayList<>();
-        for (String string : split3) {
-            list.add(string);
-        }
-        System.out.println(list);
-
-        List<String> orderVariables = new ArrayList<>();
-        List<String> orderValues = new ArrayList<>();
-        for (String string : list) {
-            String[] split4 = string.split("=");
-            orderVariables.add(split4[0]);
-        }
-        for (String string : list) {
-            String[] split4 = string.split("=");
-            orderValues.add(split4[1]);
-        }
-        System.out.println(orderVariables);
-        System.out.println(orderValues);
-
-        int OrderId = Integer.parseInt(orderValues.get(0));
-        String name = orderValues.get(1);
-        String location = orderValues.get(2);
-        int gasStationId = Integer.parseInt(orderValues.get(3));
-        double capacity = Double.parseDouble(orderValues.get(4));
-        FuelType fuelType = FuelType.valueOf(orderValues.get(5));
-
-        Allocation allocation = new Allocation();
-        saveAllocation(allocation ,createOrder(OrderId,name,location,gasStationId,capacity,fuelType));
     }
 
 }

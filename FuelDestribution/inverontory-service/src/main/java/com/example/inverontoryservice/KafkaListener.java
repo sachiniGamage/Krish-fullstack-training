@@ -1,6 +1,7 @@
 package com.example.inverontoryservice;
 
 import com.example.inverontoryservice.service.AllocationService;
+import com.example.order.model.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +13,12 @@ public class KafkaListener {
 
     @org.springframework.kafka.annotation.KafkaListener(
             topics = "NewOrder",
-            groupId = "groupId2"
+            groupId = "groupId2",
+            containerFactory = "orderListener"
     )
-    void listener(String data) {
+    void listener(Orders data) {
         System.out.println("Listener Received : " + data);
-        allocationService.splitJsonMsg(data);
+        allocationService.getOrderData(data);
     }
+
 }
